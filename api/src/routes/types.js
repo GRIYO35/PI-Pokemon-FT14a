@@ -1,16 +1,19 @@
 const { Router } = require('express');
-
+const {Type} = require('../db.js');
+const axios = require('axios');
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-    
-    const tDataBase =await Type.findAll();
+
+router.get('/types', async (req, res) => {
+
+    const tDataBase = await Type.findAll();
+
     if(tDataBase.length === 0) {
         try {
-            const type = await axios('https://pokeapi.co/api/v2/type');
-            for(let i in type.data.results){
-                await Type.create({name: type.data.results[i].name});
+            const types = await axios.get('https://pokeapi.co/api/v2/type')
+            for(let i=0; i<types.data.results.length; i++){
+                await Type.create({name: types.data.results[i].name});
             }
          } catch(error) {
 

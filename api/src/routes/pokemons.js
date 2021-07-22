@@ -1,10 +1,11 @@
 const { Router } = require('express');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
+const {Pokemon, Type} = require('../db.js');
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/pokemons', async (req, res) => {
     const name = req.query.name
     let type;
     if(name) {
@@ -44,13 +45,13 @@ router.get('/', async (req, res) => {
                 type = pDataBase.types[0].name;
             } else {
                 for (var i=0; i<pDataBase.types.length; i++){
-                    type = type + " " + pDataBase.types[i].type.name
+                    type = type + " " + pDataBase.types[i].name
                 }
             }
             var pTerminado ={
                 name : pDataBase.name.toLowerCase(),
                 id: pDataBase.id,
-                image: "https://www.kindpng.com/picc/m/107-1075263_transparent-pokeball-png-pokemon-ball-2d-png-download.png",
+                image: "https://s-media-cache-ak0.pinimg.com/originals/f8/29/be/f829bed61f75627eea111dfde089fe2c.png",
                 types: type,
                 height: pDataBase.height,
                 weight: pDataBase.weight,
@@ -82,12 +83,7 @@ router.get('/', async (req, res) => {
                     id: subReq.data.id, 
                     image: subReq.data.sprites.other.dream_world.front_default,
                     types: type,
-                    height: subReq.data.height,
-                    weight: subReq.data.weight,
-                    life: subReq.data.stats[0].base_stat,
-                    power: subReq.data.stats[1].base_stat,
-                    defense: subReq.data.stats[2].base_stat,
-                    velocity: subReq.data.stats[5].base_stat
+                    
                 }    
             }))
             
@@ -110,15 +106,10 @@ router.get('/', async (req, res) => {
                 }
                 return {
                     name: pokeMap.name.toLowerCase(),
-                    id: pokeMap.id,
-                    image: "https://www.kindpng.com/picc/m/107-1075263_transparent-pokeball-png-pokemon-ball-2d-png-download.png",
+                    id: pokeMap.ID,
+                    image: "https://s-media-cache-ak0.pinimg.com/originals/f8/29/be/f829bed61f75627eea111dfde089fe2c.png",
                     types: type,
-                    height: pokeMap.height,
-                    weight: pokeMap.weight,
-                    life: pokeMap.life,
-                    power: pokeMap.power,
-                    defense: pokeMap.defense,
-                    velocity: pokeMap.velocity
+                    
                 }
 
             })
@@ -130,29 +121,22 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:idPokemon', async (req, res) => {
+router.get('/pokemons/:idPokemon', async (req, res) => {
     const idPokemon = req.params.idPokemon
     let type;
     if(idPokemon.length > 5) {
         try{
-            var pokeDb = await Pokemon.findOne({
+            var pokeDb = await Pokemon.findByPk({
                 where:{
-                    id: idPokemon
+                    ID: idPokemon
                 },
-                include: Types
+                include: Type
             })
-            if(pokeDb.types.length === 1) {
-                type = pokeDb.types[0].name;
-            } else {
-                for(var i=0; i<pokeDb.types.length; i++){
-                    type= type + " " + pokeDb.type[i].name
-                }
-            }
             var pokeTerminado ={
                 name : pokeDb.name.toLowerCase(),
-                id: pokeDb.id,
+                id: pokeDb.ID,
                 image: pokeDb.image,
-                types: type,
+                types: pokeDb.types[0].name,
                 height: pokeDb.height,
                 weight: pokeDb.weight,
                 life: pokeDb.life,
@@ -171,9 +155,8 @@ router.get('/:idPokemon', async (req, res) => {
             if(pokemon.data.types.length === 1) {
                 type = pokemon.data.types[0].type.name;
             } else {
-                for(var i=0; i<pokemon.data.types.length; i++){
-                    type = type + " " + pokemon.data.types[i].name
-                }
+                type = pokemon.data.types[0].type.name + " " + pokemon.data.types[1].type.name
+                
             }
     
             var objeto = {
@@ -183,10 +166,10 @@ router.get('/:idPokemon', async (req, res) => {
                 types: type,
                 height: pokemon.data.height,
                 weight: pokemon.data.weight,
-                hp: pokemon.data.stats[0].base_stat,
-                attack: pokemon.data.stats[1].base_stat,
+                life: pokemon.data.stats[0].base_stat,
+                power: pokemon.data.stats[1].base_stat,
                 defense: pokemon.data.stats[2].base_stat,
-                speed: pokemon.data.stats[5].base_stat
+                velocity: pokemon.data.stats[5].base_stat
             } 
         }catch (error) {
             return res.status(404).send({message: 'Nose encontro el Pokemon en la Api'})  
@@ -195,7 +178,7 @@ router.get('/:idPokemon', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/pokemons', async (req, res, next) => {
     const name = req.body.name;
     const id = uuidv4();
     const pokemon = {...req.body, id};
@@ -206,8 +189,8 @@ router.post('/', async (req, res, next) => {
     }
     try {
         const createdPokemon = await Pokemon.create(pokemon);
-        const addType = await createdPokemon.addTipo(req.body.type1, {through:'pokemon_type'})
-        const addType2= await createdPokemon.addTipo(req.body.type2, {through:'pokemon_type'})
+        const addType = await createdPokemon.addType(req.body.type, {through:'pokemon_type'})
+        //const addType2= await createdPokemon.addTipo(req.body.type2, {through:'pokemon_type'})
         const result = await Pokemon.findOne({
             where: {
                 name: name

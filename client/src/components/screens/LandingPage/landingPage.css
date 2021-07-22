@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Tourney:wght@700&display=swap');
+
+.Landingpage{
+    background-image:
+    url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/1200px-International_Pok%C3%A9mon_logo.svg.png");
+    background-size: contain;
+    background-position: 10% 70%;
+    width: 1350px;
+    height: 500px;
+    border-radius: 20px;
+  }
+
+.btn {
+  position: fixed;
+  right: 400px;
+  margin-top: 500px;
+  background-color: rgb(40, 94, 165);
+  padding: 20px 30px;
+  text-align: center;
+  font-family: 'Tourney';
+  font-size: 30px;
+  color: #ffcc03;
+  border-radius: 20px;
+}
+
+.btn:hover {
+  background-position: right center; 
+  color:rgb(40, 94, 165);
+  background-color: #ffcc03;
+  text-decoration: none;
+  transform:scale(1.15);
+}

@@ -1,0 +1,21 @@
+.filter{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left:60px;
+}
+
+.filtered{
+    display: flex;
+    justify-content:center;
+    margin-top:40px;
+    padding-left: 40px;
+}
+
+.filtered .type{
+    width:200px;
+    height:20px;
+}
+
+.filtered select{
+    margin-right: 50px;
+}

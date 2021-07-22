@@ -1,0 +1,22 @@
+.home{
+    background: url("https://assets.pokemon.com//assets/cms2-es-es/img/misc/virtual-backgrounds/sword-shield/pokemon-in-the-wild.png") fixed; 
+    background-size: cover;
+}
+
+.home button {
+    margin-left: 340px;
+    width:150px;
+    height: 40px;
+    border-radius:4px;
+    margin-bottom:50px;
+    background-color: rgb(40, 94, 165);
+    color:#f1e315;
+    border-color: #f1e315;
+    font-size: 17px;
+}
+
+.home button:hover {
+    background-color: #f1e315;
+    color: rgb(40, 94, 165);
+    border-color: rgb(40, 94, 165);
+}
