@@ -9,11 +9,8 @@ import { NavLink } from 'react-router-dom';
 export function Home() {
     const dispatch = useDispatch();
     const pokemonList = useSelector(state => state.pokemonList)
-    console.log(pokemonList)
     const [currentPage, setCurrentPage] = useState(1);
     const [pokemonsPerPage] = useState(12);
-    //const pokemonSearched = useSelector(state => state.pokemonSearched)
-    //const history = useHistory()
     
     useEffect(() =>{
         dispatch(getPokemons());
@@ -46,9 +43,9 @@ export function Home() {
         return  ( <div className="home">     
             <div className="row center"> 
             {
-            currentPokemons.map((pokemon, index)=> (
+            currentPokemons?.map((pokemon, item)=> (
                 <NavLink to={`/pokeDetail/${pokemon.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                 <Pokemon key={index} pokemon={pokemon}></Pokemon>
+                 <Pokemon key={item} pokemon={pokemon}></Pokemon>
                 </NavLink> 
         )) 
         }

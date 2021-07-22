@@ -9,7 +9,6 @@ export default function SearchBar () {
 
     const dispatch = useDispatch();
     const pokemonSearched = useSelector(state => state.pokemonSearched)
-    console.log(pokemonSearched)
 
     const[search, setSearch] = useState('');
 

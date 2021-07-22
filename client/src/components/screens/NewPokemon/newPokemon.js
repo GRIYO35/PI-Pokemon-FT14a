@@ -42,7 +42,6 @@ export function NewPokemon() {
       const handleSubmit = function(e) {
         e.preventDefault();
         newPokemon(input);
-        console.log(input)
         setInput({
           name: '',
           life: '',
@@ -111,7 +110,7 @@ export function NewPokemon() {
               <select className={errors.type && "type"} name="type" value={input.ID} onChange={handleInputChange}>
                     <option value='null'>Null</option>
                     {pokemonTypes && pokemonTypes.map(p => (
-                    <option value={p.id} name="p.name">{p.name}</option>
+                    <option value={p.ID} name="p.name">{p.name}</option>
                     ))}
                     {errors.type && (
                     <p className="tipe">{errors.type}</p>

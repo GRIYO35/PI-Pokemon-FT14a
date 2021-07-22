@@ -10,7 +10,6 @@ export default function Pokemon(props) {
                   <img className="medium" src={pokemon.image} alt={pokemon.name} /> 
                   <div className="card-body">
                     <h2>{pokemon.name}</h2>
-                    <h4>{pokemon.types}</h4>
                   </div>
                 </div>
             </div>

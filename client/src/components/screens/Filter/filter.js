@@ -6,7 +6,7 @@ import Pokemon from '../../component/Pokemon/pokemon'
 import { NavLink } from 'react-router-dom';
 
 export function Filter() {
-    const dispatch = useDispatch(); // falta use effect con estado para filtrar los pokemone
+    const dispatch = useDispatch();
 
     const pokemonFiltered = useSelector(state => state.pokemonFiltered)
     const pokemonTypes = useSelector(state => state.pokemonTypes)
@@ -33,8 +33,8 @@ export function Filter() {
              <span > By Type:</span>
                 <select className="type" name="type"  onChange={filter}>
                     <option value='null'>Null</option>
-                    {pokemonTypes && pokemonTypes.map((p, index) => (
-                    <option value={p.name} key={index} name="p.name">{p.name}</option>
+                    {pokemonTypes && pokemonTypes.map((p, item) => (
+                    <option value={p.name} key={item} name="p.name">{p.name}</option>
                     ))}
                 </select>  
             <span> By Creator:</span>

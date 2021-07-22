@@ -108,7 +108,7 @@ router.get('/pokemons', async (req, res) => {
                     name: pokeMap.name.toLowerCase(),
                     id: pokeMap.ID,
                     image: "https://s-media-cache-ak0.pinimg.com/originals/f8/29/be/f829bed61f75627eea111dfde089fe2c.png",
-                    types: type,
+                    types: type
                     
                 }
 
@@ -126,7 +126,7 @@ router.get('/pokemons/:idPokemon', async (req, res) => {
     let type;
     if(idPokemon.length > 5) {
         try{
-            var pokeDb = await Pokemon.findByPk({
+            var pokeDb = await Pokemon.findOne({
                 where:{
                     ID: idPokemon
                 },
@@ -190,7 +190,6 @@ router.post('/pokemons', async (req, res, next) => {
     try {
         const createdPokemon = await Pokemon.create(pokemon);
         const addType = await createdPokemon.addType(req.body.type, {through:'pokemon_type'})
-        //const addType2= await createdPokemon.addTipo(req.body.type2, {through:'pokemon_type'})
         const result = await Pokemon.findOne({
             where: {
                 name: name
